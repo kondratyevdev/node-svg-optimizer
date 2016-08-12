@@ -1,0 +1,19 @@
+{
+  "name": "node-svg-optimizer",
+  "version": "1.0.0",
+  "description": "Optimize SVG",
+  "main": "convert-svg.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+    },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "jsdom": "^9.4.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kondratyevdev/node-svg-optimizer"
+  }
+}
