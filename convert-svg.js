@@ -36,11 +36,14 @@ require("jsdom").env("", function(err, win) {
                 let ok = false;
                 try {
                     let svgString = fs.readFileSync(filePath, { encoding: 'utf8'} );
-                    fs.writeFileSync(filePath, loadSVG(svgString));
-                    ok = true;
+                    let result = loadSVG(svgString);
+                    if (svgString.length > result.length) {
+                        fs.writeFileSync(filePath, result);
+                        ok = true;
+                    } 
                 } catch (e) {}
                 
-                console.log(filename, ok ? '[OK]' : '[ERROR]');
+                console.log(filename, ok ? '[OK]' : '[ALREADY]');
             }
         }
     });
@@ -184,7 +187,7 @@ var optimisationOptions = [
         name: 'Remove non-essential styles',
         id: 'removeNonEssentialStyles',
         type: 'checkbox',
-        defaultValue: true
+        defaultValue: false
     },
     {
         name: 'Remove empty elements',
@@ -856,7 +859,7 @@ var SVG_Object = function(jQuerySVG) {
         removeIDs: false,
         removeDefaultAttributes: true,
         removeDefaultStyles: true,
-        removeNonEssentialStyles: true,
+        removeNonEssentialStyles: false,
         removeEmptyElements: true,
         removeRedundantShapes: true,
         removeCleanGroups: true,
@@ -1073,5 +1076,5 @@ function optimiseSVG(svgObj) {
         svgStringNew = svgStringNew.replace('<desc>  Created with Sketch.</desc><g fill="none">', '<desc>  Created with Sketch.</desc>').replace('</g></svg>', '</svg>')
     }
 
-    return svgStringNew.replace(/(<title>)(.+)(<\/desc>)/, '');
+    return svgStringNew.replace(/(<title>)(.+)Sketch.(<\/desc>)/, '').replace('Sketch.', '');
 }
